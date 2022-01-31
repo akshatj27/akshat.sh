@@ -2,7 +2,7 @@ name: "Automatic build page"
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   continuous-delivery:
