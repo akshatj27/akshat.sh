@@ -3,7 +3,7 @@ title: My first post
 author:
   name: Akshat Jain
   # link: https://github.com/cotes2020
-date: 2022-01-31 07:30:00 +0530
+date: 2022-01-31 08:00:00 +0530
 categories: [Blogging]
 tags: [typography]
 math: true
