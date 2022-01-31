@@ -14,7 +14,7 @@ math: true
 #   height: 500
 ---
 
-This is my first post to test if everything works. Since i do not have anything to talk about, I am going to fill it with random filler text.
+This is my first post to test if everything works. Since I do not have anything to talk about, I am going to fill it with random filler text.
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin posuere consequat fringilla. Nam a tincidunt tellus, vel molestie arcu. Pellentesque interdum dui non facilisis tempus. Maecenas malesuada, diam porttitor auctor molestie, leo neque suscipit quam, quis malesuada tortor dui vitae tellus. Phasellus sed quam pellentesque, pharetra lorem sit amet, tincidunt ipsum. Nunc bibendum id ante a finibus. Nam nibh elit, consectetur eget aliquet id, imperdiet vitae lorem. Integer tincidunt sem sapien, vel egestas odio sodales eget. Phasellus turpis orci, rhoncus vulputate ligula a, maximus pretium dui. Donec blandit ipsum eget tortor ornare, a tincidunt orci pharetra. Quisque porta viverra lobortis. Ut sodales mattis elementum. Nunc nec nisi molestie lorem ultrices egestas ac ut nunc. Donec fringilla eros quis tortor mattis aliquam. Cras pulvinar et diam ut malesuada. Nunc interdum, nibh vel commodo vehicula, eros risus maximus felis, id tempus risus ipsum iaculis arcu.
 
