@@ -27,7 +27,7 @@ Vivamus sodales metus eget ante lacinia, vel ultricies nibh interdum. Maecenas s
 Vestibulum eleifend, justo et placerat condimentum, nibh ipsum fermentum velit, sit amet viverra erat quam eget odio. Maecenas at urna non justo venenatis tempus. Vestibulum feugiat arcu dolor, eu convallis ligula suscipit eget. Nullam eget libero dui. Mauris consectetur finibus nulla. Quisque fermentum eros vitae lacus sodales semper. Nam sodales in mi non imperdiet. Curabitur sed ipsum posuere, cursus purus id, tempor ligula. In venenatis quam vitae molestie molestie. Ut dictum tincidunt leo, volutpat commodo sapien cursus vitae. Integer nec justo quis libero dapibus commodo. Aliquam erat volutpat. Vivamus posuere varius lacus, et fringilla elit faucibus ac. Sed eu hendrerit justo, eget luctus tellus.
 
 $$
-1 + 2 + 3 + 4 + \cdots + \infty = -\frac{1}{12}
+x+y
 $$
 
 ```js
