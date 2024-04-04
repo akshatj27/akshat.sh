@@ -1,4 +1,147 @@
----
-layout: home
-# Index page
----
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Akshat Jain</title>
+    <meta name="description" content="A minimalistic personal website." />
+    <meta name="author" content="Daniel Bala" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <link
+      href="https://fonts.googleapis.com/css?family=Raleway:400,300,600"
+      rel="stylesheet"
+      type="text/css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+    <style>
+      body {
+        overflow: hidden;
+        color: #dcd9d4;
+        background-color: #181a1b;
+      }
+
+      body a:not(.highlighted-words) {
+        color: #dcd9d4;
+      }
+
+      .section {
+        position: relative;
+        height: 95vh;
+      }
+
+      div a,
+      div a:hover,
+      span,
+      a {
+        color: #339ff0;
+        text-decoration: none;
+      }
+
+      .fab,
+      .far,
+      .fas {
+        padding: 5px;
+        font-size: 20px;
+        text-align: center;
+        color: #222;
+        vertical-align: middle;
+      }
+    </style>
+
+    <link rel="icon" type="image/png" href="favicon.ico" />
+  </head>
+  <body>
+    <!-- Primary Page Layout
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+    <!-- Hero Section -->
+    <div class="section" id="hero">
+      <div class="container">
+        <div class="row">
+          <div class="one-half column" style="margin-top: 25%">
+            <div id="rotating-words" class="slider">
+              <div class="item">
+                <h4>Hi, I'm <span>Akshat Jain.</span></h4>
+              </div>
+              <div class="item">
+                <h4>Hi, I'm <span>a programmer.</span></h4>
+              </div>
+              <div class="item">
+                <h4>Hi, I'm <span>a student.</span></h4>
+              </div>
+              <div class="item">
+                <h4>Hi, I'm <span>a problem solver.</span></h4>
+              </div>
+            </div>
+            <div id="rotating-paragraphs">
+              <p>
+                Currently studying Engineering Physics at
+                <span>Delhi Technological University</span>. I love solving
+                problems and connecting with new people! Leave me a mail at
+                <a href="mailto:hey@akshat.sh">hey@akshat.sh</a>, or message me
+                on whatsapp at
+                <a
+                  href="https://api.whatsapp.com/send?phone=919315432437&text=Hello!"
+                  >+91 93154 32437</a
+                >.
+              </p>
+            </div>
+            <div id="social-bar">
+              <a class="fas fa-envelope" href="mailto:hey@akshat.sh"></a>
+              <a
+                class="fab fa-linkedin-in"
+                href="https://linkedin.com/in/akshatj27"
+              ></a>
+              <a
+                class="fab fa-whatsapp"
+                href="https://api.whatsapp.com/send?phone=919315432437&text=Hello!"
+              ></a>
+              <a class="fab fa-github" href="https://github.com/akshatj27"></a>
+              <a
+                class="fab fa-instagram"
+                href="https://instagram.com/akshat.1337"
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
+      <script>
+        (function () {
+          var sliders = document.querySelectorAll(".slider");
+          sliders.forEach((slider) => {
+            tns({
+              container: slider,
+              mode: "gallery",
+              controls: false,
+              nav: false,
+              autoplay: true,
+              autoplayButtonOutput: false,
+              mouseDrag: true,
+            });
+          });
+        })();
+      </script>
+    </footer>
+  </body>
+</html>
