@@ -1,147 +1,1523 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Akshat Jain</title>
-    <meta name="description" content="A minimalistic personal website." />
-    <meta name="author" content="Daniel Bala" />
-
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+    <link rel="icon" type="image/x-icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./assets/tailwind.css" />
     <link
-      href="https://fonts.googleapis.com/css?family=Raleway:400,300,600"
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Inter:wght@300;400;600;800&display=swap"
       rel="stylesheet"
-      type="text/css"
-    />
-
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/skeleton/2.0.4/skeleton.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.3/tiny-slider.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     />
     <style>
       body {
-        overflow: hidden;
-        color: #dcd9d4;
-        background-color: #181a1b;
+        background-color: #09090b;
+        color: #d4d4d8;
+        margin: 0;
+      }
+      @media (min-width: 1024px) {
+        body {
+          overflow: hidden;
+        }
       }
 
-      body a:not(.highlighted-words) {
-        color: #dcd9d4;
+      /* Scanline Overlay for Matte Display Effect */
+      .scanlines {
+        background: linear-gradient(
+          to bottom,
+          rgba(255, 255, 255, 0),
+          rgba(255, 255, 255, 0) 50%,
+          rgba(0, 0, 0, 0.1) 50%,
+          rgba(0, 0, 0, 0.1)
+        );
+        background-size: 100% 4px;
+        pointer-events: none;
       }
 
-      .section {
+      /* Global Grid Background */
+      .global-grid {
+        background-image:
+          linear-gradient(to right, #18181b 1px, transparent 1px),
+          linear-gradient(to bottom, #18181b 1px, transparent 1px);
+        background-size: 40px 40px;
+        background-position: center center;
+      }
+
+      /* Aspect Ratio Container that fits screen without cropping */
+      .fit-container {
+        width: 100%;
         position: relative;
-        height: 95vh;
+      }
+      @media (min-width: 1024px) {
+        .fit-container {
+          height: 100%;
+          max-width: 100%;
+          max-height: 100%;
+          aspect-ratio: 1200 / 900;
+        }
       }
 
-      div a,
-      div a:hover,
-      span,
-      a {
-        color: #339ff0;
-        text-decoration: none;
+      /* SVG Styles */
+      .mask {
+        fill: #09090b;
+      }
+      .trace {
+        fill: none;
+        stroke: #3b82f6;
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: all 0.3s ease;
+      }
+      .trace-purple {
+        stroke: #a855f7;
+        transition: all 0.3s ease;
+      }
+      .component-line {
+        fill: none;
+        stroke: #fcd34d;
+        stroke-width: 2;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .component-fill {
+        fill: #fcd34d;
+      }
+      .label {
+        font-family: "Fira Code", monospace;
+        font-size: 11px;
+        fill: #94a3b8;
+        font-weight: 600;
+      }
+      .osc-label {
+        font-family: "Fira Code", monospace;
+        font-size: 10px;
+        font-weight: 700;
       }
 
-      .fab,
-      .far,
-      .fas {
-        padding: 5px;
-        font-size: 20px;
-        text-align: center;
-        color: #222;
-        vertical-align: middle;
+      .glow-electron {
+        filter: drop-shadow(0 0 6px #fef08a);
+      }
+      .accent-red {
+        fill: #fca5a5;
+        color: #fca5a5;
+      }
+      .accent-yellow {
+        fill: #fde047;
+        color: #fde047;
+      }
+      .accent-green {
+        fill: #86efac;
+        color: #86efac;
+      }
+
+      /* Interactivity Classes */
+      .circuit-group {
+        transition:
+          opacity 0.4s ease,
+          filter 0.4s ease;
+      }
+      .circuit-group.dimmed {
+        opacity: 0.15;
+        filter: grayscale(0.5);
+      }
+      .circuit-group.highlighted-blue {
+        filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8)) brightness(1.2);
+        opacity: 1;
+      }
+      .circuit-group.highlighted-purple {
+        filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.8)) brightness(1.2);
+        opacity: 1;
+      }
+
+      /* HTML Panel Hover Effects */
+      .hover-target {
+        transition: all 0.2s ease;
+        cursor: crosshair;
+      }
+      .hover-target:hover {
+        background-color: rgba(39, 39, 42, 0.5);
+        border-left-color: #3b82f6;
+      }
+      .hover-target-purple:hover {
+        border-left-color: #a855f7;
+      }
+
+      /* Terminal Buttons */
+      .term-btn {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.2s;
+      }
+      .term-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(59, 130, 246, 0.2),
+          transparent
+        );
+        transition: all 0.4s;
+      }
+      .term-btn:hover::before {
+        left: 100%;
+      }
+
+      /* Custom Range Sliders */
+      .styled-slider {
+        appearance: none;
+        -webkit-appearance: none;
+        width: 100%;
+        background: transparent;
+        margin: 6px 0;
+      }
+      .styled-slider:focus {
+        outline: none;
+      }
+      .styled-slider::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 4px;
+        cursor: pointer;
+        background: #27272a;
+        border-radius: 2px;
+        transition: background 0.2s;
+      }
+      .styled-slider:hover::-webkit-slider-runnable-track {
+        background: #3f3f46;
+      }
+      .styled-slider::-webkit-slider-thumb {
+        appearance: none;
+        height: 14px;
+        width: 14px;
+        border-radius: 50%;
+        background: currentColor;
+        cursor: pointer;
+        -webkit-appearance: none;
+        margin-top: -5px;
+        box-shadow: 0 0 4px currentColor;
+      }
+
+      /* Mobile responsive overrides */
+      @media (max-width: 1023px) {
+        .styled-slider::-webkit-slider-thumb {
+          height: 22px;
+          width: 22px;
+          margin-top: -9px;
+        }
+        .styled-slider::-webkit-slider-runnable-track {
+          height: 6px;
+        }
+        .circuit-path-grid button {
+          padding-top: 0.375rem;
+          padding-bottom: 0.375rem;
+        }
       }
     </style>
-
-    <link rel="icon" type="image/png" href="favicon.ico" />
   </head>
-  <body>
-    <!-- Primary Page Layout
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <body
+    class="flex flex-col items-center lg:justify-center w-screen min-h-screen lg:h-screen global-grid"
+  >
+    <div class="fixed inset-0 scanlines z-[60]"></div>
 
-    <!-- Hero Section -->
-    <div class="section" id="hero">
-      <div class="container">
-        <div class="row">
-          <div class="one-half column" style="margin-top: 25%">
-            <div id="rotating-words" class="slider">
-              <div class="item">
-                <h4>Hi, I'm <span>Akshat Jain.</span></h4>
+    <!-- Main Container scaling to fit without scrolling -->
+    <div class="fit-container relative z-10">
+      <!-- ========================================== -->
+      <!-- THE CIRCUIT SVG -->
+      <!-- ========================================== -->
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 1200 900"
+        class="w-full lg:h-full lg:absolute lg:inset-0 z-0"
+        id="circuit-svg"
+      >
+        <defs>
+          <pattern
+            id="bg-grid"
+            width="40"
+            height="40"
+            patternUnits="userSpaceOnUse"
+          >
+            <path
+              d="M 40 0 L 0 0 0 40"
+              fill="none"
+              stroke="#18181b"
+              stroke-width="1"
+            />
+          </pattern>
+          <rect id="mask" x="-16" y="-12" width="32" height="24" class="mask" />
+
+          <!-- Analog Components -->
+          <g id="R">
+            <use href="#mask" />
+            <polyline
+              points="-15,0 -10,-6 -5,6 0,-6 5,6 10,-6 15,0"
+              class="component-line"
+            />
+          </g>
+          <g id="C">
+            <use href="#mask" />
+            <line x1="-4" y1="-10" x2="-4" y2="10" class="component-line" />
+            <line x1="4" y1="-10" x2="4" y2="10" class="component-line" />
+          </g>
+          <g id="L">
+            <use href="#mask" />
+            <path
+              d="M -15 0 Q -10 -12 -5 0 Q 0 -12 5 0 Q 10 -12 15 0"
+              class="component-line"
+            />
+          </g>
+          <g id="D">
+            <use href="#mask" />
+            <polygon points="-8,-8 6,0 -8,8" class="component-fill" />
+            <line x1="6" y1="-8" x2="6" y2="8" class="component-line" />
+          </g>
+          <g id="GND">
+            <line
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="12"
+              class="component-line"
+              stroke="#64748b"
+            />
+            <line
+              x1="-10"
+              y1="12"
+              x2="10"
+              y2="12"
+              class="component-line"
+              stroke="#64748b"
+            />
+            <line
+              x1="-6"
+              y1="17"
+              x2="6"
+              y2="17"
+              class="component-line"
+              stroke="#64748b"
+            />
+            <line
+              x1="-2"
+              y1="22"
+              x2="2"
+              y2="22"
+              class="component-line"
+              stroke="#64748b"
+            />
+          </g>
+
+          <!-- Electron Path -->
+          <path
+            id="main-path"
+            d="M 50 350 L 100 350 L 140 200 L 180 350 L 280 350 L 280 275 L 340 350 L 420 350 L 480 350 L 480 275 L 420 275 L 420 200 L 480 200 L 600 200 L 600 275 L 680 275 L 680 200 L 730 200 L 730 350 L 780 350 L 820 200 L 960 200 L 1000 200 L 1040 200 L 1100 200"
+            fill="none"
+          />
+        </defs>
+
+        <!-- Background Grid handled by CSS now for full page coverage -->
+        <!-- <rect width="100%" height="100%" fill="url(#bg-grid)" /> -->
+
+        <!-- =============================== -->
+        <!-- OSCILLOSCOPE SCREENS -->
+        <!-- =============================== -->
+        <g id="scopes" class="circuit-group">
+          <!-- Scope 1: V_IN (AM Signal) -->
+          <g
+            transform="translate(150, 20)"
+            class="hover-target"
+            data-target="scopes"
+            data-desc="desc-tp1"
+          >
+            <rect
+              width="200"
+              height="80"
+              fill="#022c22"
+              stroke="#059669"
+              stroke-width="2"
+              rx="4"
+            />
+            <line
+              x1="0"
+              y1="40"
+              x2="200"
+              y2="40"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="50"
+              y1="0"
+              x2="50"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="100"
+              y1="0"
+              x2="100"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="150"
+              y1="0"
+              x2="150"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <path
+              id="path-vin"
+              d=""
+              stroke="#34d399"
+              stroke-width="1.5"
+              fill="none"
+            />
+            <line
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="80"
+              stroke="#a7f3d0"
+              stroke-width="2"
+              opacity="0.6"
+            >
+              <animate
+                attributeName="x1"
+                values="0;200;0"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="x2"
+                values="0;200;0"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+            </line>
+            <text x="5" y="15" class="osc-label accent-red">TP1: V_IN</text>
+          </g>
+
+          <!-- Scope 2: V_MID (Rectified Signal) -->
+          <g
+            transform="translate(500, 20)"
+            class="hover-target"
+            data-target="scopes"
+            data-desc="desc-tp2"
+          >
+            <rect
+              width="200"
+              height="80"
+              fill="#022c22"
+              stroke="#059669"
+              stroke-width="2"
+              rx="4"
+            />
+            <line
+              x1="0"
+              y1="40"
+              x2="200"
+              y2="40"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="50"
+              y1="0"
+              x2="50"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="100"
+              y1="0"
+              x2="100"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="150"
+              y1="0"
+              x2="150"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <path
+              id="path-vmid"
+              d=""
+              stroke="#fbbf24"
+              stroke-width="1.5"
+              fill="none"
+            />
+            <line
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="80"
+              stroke="#fde047"
+              stroke-width="2"
+              opacity="0.6"
+            >
+              <animate
+                attributeName="x1"
+                values="0;200;0"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="x2"
+                values="0;200;0"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+            </line>
+            <text x="5" y="15" class="osc-label accent-yellow">TP2: V_MID</text>
+          </g>
+
+          <!-- Scope 3: V_OUT (Recovered Envelope) -->
+          <g
+            transform="translate(850, 20)"
+            class="hover-target"
+            data-target="scopes"
+            data-desc="desc-tp3"
+          >
+            <rect
+              width="200"
+              height="80"
+              fill="#022c22"
+              stroke="#059669"
+              stroke-width="2"
+              rx="4"
+            />
+            <line
+              x1="0"
+              y1="40"
+              x2="200"
+              y2="40"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="50"
+              y1="0"
+              x2="50"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="100"
+              y1="0"
+              x2="100"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <line
+              x1="150"
+              y1="0"
+              x2="150"
+              y2="80"
+              stroke="#064e3b"
+              stroke-width="1"
+            />
+            <path
+              id="path-vout"
+              d=""
+              stroke="#38bdf8"
+              stroke-width="2"
+              fill="none"
+            />
+            <line
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="80"
+              stroke="#7dd3fc"
+              stroke-width="2"
+              opacity="0.6"
+            >
+              <animate
+                attributeName="x1"
+                values="0;200;0"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+              <animate
+                attributeName="x2"
+                values="0;200;0"
+                dur="2s"
+                repeatCount="indefinite"
+              />
+            </line>
+            <text x="5" y="15" class="osc-label accent-green">TP3: V_OUT</text>
+          </g>
+        </g>
+
+        <!-- =============================== -->
+        <!-- CIRCUIT STAGES (Grouped for Hover) -->
+        <!-- =============================== -->
+
+        <!-- STAGE: A1 -->
+        <g
+          id="group-A1"
+          class="circuit-group hover-target pointer-events-bounding-box cursor-crosshair"
+          data-target="group-A1"
+          data-desc="desc-a1"
+        >
+          <!-- Invisible wide hit area for easier hover -->
+          <rect x="50" y="150" width="130" height="220" fill="transparent" />
+
+          <polyline points="50,350 100,350 140,200 180,350" class="trace" />
+          <polyline points="115,294 165,294" class="trace" />
+
+          <use href="#R" transform="translate(140, 294) rotate(0)" />
+          <use href="#D" transform="translate(160, 275) rotate(75.07)" />
+          <circle cx="140" cy="200" r="3" fill="#3b82f6" />
+          <circle cx="115" cy="294" r="3" fill="#3b82f6" />
+          <circle cx="165" cy="294" r="3" fill="#3b82f6" />
+
+          <text class="label" x="140" y="320" text-anchor="middle">R1</text>
+          <text class="label" x="180" y="275">D1</text>
+        </g>
+
+        <!-- STAGE: K -->
+        <g
+          id="group-K"
+          class="circuit-group hover-target pointer-events-bounding-box cursor-crosshair"
+          data-target="group-K"
+          data-desc="desc-k"
+        >
+          <!-- Invisible wide hit area for easier hover -->
+          <rect x="180" y="150" width="160" height="220" fill="transparent" />
+
+          <polyline points="180,350 280,350 280,275" class="trace" />
+          <line x1="280" y1="275" x2="280" y2="180" class="trace" />
+          <line x1="280" y1="275" x2="340" y2="200" class="trace" />
+          <line x1="280" y1="275" x2="340" y2="350" class="trace" />
+
+          <!-- Extra wires for ground -->
+          <polyline points="280,180 250,180 250,190" class="trace" />
+          <polyline points="340,200 360,200 360,210" class="trace" />
+
+          <use href="#R" transform="translate(280, 237.5) rotate(90)" />
+          <use href="#C" transform="translate(310, 237.5) rotate(-51.34)" />
+          <use href="#L" transform="translate(310, 312.5) rotate(51.34)" />
+
+          <use href="#GND" transform="translate(250, 190)" />
+          <use href="#GND" transform="translate(360, 210)" />
+          <circle cx="280" cy="275" r="3" fill="#3b82f6" />
+
+          <text class="label" x="250" y="245">R2</text>
+          <text class="label" x="300" y="225">C1</text>
+          <text class="label" x="310" y="340">L1</text>
+        </g>
+
+        <!-- STAGE: S -->
+        <g
+          id="group-S"
+          class="circuit-group hover-target pointer-events-bounding-box cursor-crosshair"
+          data-target="group-S"
+          data-desc="desc-s"
+          data-color="purple"
+        >
+          <!-- Invisible wide hit area for easier hover -->
+          <rect x="340" y="150" width="140" height="220" fill="transparent" />
+
+          <line x1="340" y1="350" x2="420" y2="350" class="trace" />
+          <polyline
+            points="420,350 480,350 480,275 420,275 420,200 480,200"
+            class="trace trace-purple"
+          />
+
+          <text class="label" fill="#a855f7" x="435" y="235">L_DELAY</text>
+          <text class="label" fill="#a855f7" x="435" y="315">Z0=50Ω</text>
+        </g>
+
+        <!-- STAGE: H -->
+        <g
+          id="group-H"
+          class="circuit-group hover-target pointer-events-bounding-box cursor-crosshair"
+          data-target="group-H"
+          data-desc="desc-h"
+        >
+          <!-- Invisible wide hit area for easier hover -->
+          <rect x="480" y="150" width="200" height="220" fill="transparent" />
+
+          <polyline points="480,200 600,200" class="trace" />
+          <line x1="600" y1="200" x2="600" y2="350" class="trace" />
+          <line x1="600" y1="275" x2="680" y2="275" class="trace" />
+          <line x1="680" y1="200" x2="680" y2="350" class="trace" />
+
+          <use href="#R" transform="translate(600, 237.5) rotate(90)" />
+          <use href="#R" transform="translate(600, 312.5) rotate(90)" />
+          <use href="#R" transform="translate(640, 275) rotate(0)" />
+          <use href="#R" transform="translate(680, 237.5) rotate(90)" />
+          <use href="#R" transform="translate(680, 312.5) rotate(90)" />
+          <use href="#GND" transform="translate(600, 350)" />
+          <use href="#GND" transform="translate(680, 350)" />
+          <circle cx="600" cy="275" r="3" fill="#3b82f6" />
+          <circle cx="680" cy="275" r="3" fill="#3b82f6" />
+
+          <text class="label" x="575" y="240">R3</text>
+          <text class="label" x="575" y="315">R4</text>
+          <text class="label" x="640" y="260" text-anchor="middle">R5</text>
+          <text class="label" x="700" y="240">R6</text>
+          <text class="label" x="700" y="315">R7</text>
+        </g>
+
+        <!-- STAGE: A2 -->
+        <g
+          id="group-A2"
+          class="circuit-group hover-target pointer-events-bounding-box cursor-crosshair"
+          data-target="group-A2"
+          data-desc="desc-a2"
+        >
+          <!-- Invisible wide hit area for easier hover -->
+          <rect x="680" y="150" width="280" height="220" fill="transparent" />
+
+          <polyline points="680,200 730,200 730,350 780,350" class="trace" />
+          <polyline points="780,350 820,200 860,350" class="trace" />
+          <!-- Electrically sound Envelope Detector Crossbar -->
+          <line x1="800" y1="275" x2="840" y2="275" class="trace" />
+          <polyline points="820,200 960,200" class="trace" />
+
+          <use href="#D" transform="translate(790, 312.5) rotate(-75.07)" />
+          <use href="#C" transform="translate(830, 237.5) rotate(75.07)" />
+          <use href="#R" transform="translate(820, 275) rotate(0)" />
+          <use href="#GND" transform="translate(860, 350)" />
+
+          <circle cx="800" cy="275" r="3" fill="#3b82f6" />
+          <circle cx="840" cy="275" r="3" fill="#3b82f6" />
+          <circle cx="820" cy="200" r="3" fill="#3b82f6" />
+
+          <text class="label" x="750" y="320">D2</text>
+          <text class="label" x="860" y="235">C2</text>
+          <text class="label" x="820" y="265" text-anchor="middle">R8</text>
+        </g>
+
+        <!-- STAGE: T -->
+        <g
+          id="group-T"
+          class="circuit-group hover-target pointer-events-bounding-box cursor-crosshair"
+          data-target="group-T"
+          data-desc="desc-t"
+        >
+          <!-- Invisible wide hit area for easier hover -->
+          <rect x="960" y="150" width="140" height="220" fill="transparent" />
+
+          <line x1="960" y1="200" x2="1040" y2="200" class="trace" />
+          <line x1="1000" y1="200" x2="1000" y2="350" class="trace" />
+          <line x1="1040" y1="200" x2="1100" y2="200" class="trace" />
+
+          <use href="#L" transform="translate(980, 200) rotate(0)" />
+          <use href="#L" transform="translate(1020, 200) rotate(0)" />
+          <use href="#C" transform="translate(1000, 275) rotate(90)" />
+          <use href="#GND" transform="translate(1000, 350)" />
+          <circle cx="1000" cy="200" r="3" fill="#3b82f6" />
+
+          <text class="label" x="980" y="180" text-anchor="middle">L2</text>
+          <text class="label" x="1020" y="180" text-anchor="middle">L3</text>
+          <text class="label" x="1015" y="275">C3</text>
+        </g>
+
+        <!-- =============================== -->
+        <!-- I/O PORTS & PROBES -->
+        <!-- =============================== -->
+        <g id="io-ports" class="circuit-group">
+          <!-- AM IN -->
+          <rect
+            x="10"
+            y="320"
+            width="40"
+            height="60"
+            rx="4"
+            fill="#09090b"
+            stroke="#52525b"
+            stroke-width="2"
+          />
+          <circle
+            cx="30"
+            cy="340"
+            r="8"
+            fill="none"
+            stroke="#3b82f6"
+            stroke-width="1.5"
+          />
+          <path
+            d="M 24 340 Q 27 330 30 340 T 36 340"
+            fill="none"
+            stroke="#3b82f6"
+            stroke-width="1.5"
+          />
+          <text x="30" y="370" text-anchor="middle" class="label" font-size="9">
+            AM IN
+          </text>
+
+          <!-- OUT Terminal Block -->
+          <rect
+            x="1100"
+            y="180"
+            width="40"
+            height="40"
+            rx="4"
+            fill="#09090b"
+            stroke="#52525b"
+            stroke-width="2"
+          />
+          <text
+            x="1120"
+            y="204"
+            text-anchor="middle"
+            class="label"
+            font-size="11"
+          >
+            OUT
+          </text>
+
+          <!-- TP1 -->
+          <circle cx="80" cy="350" r="4" fill="#ef4444" class="glow-red" />
+          <path
+            d="M 80 350 L 80 120 L 250 120 L 250 100"
+            fill="none"
+            stroke="#ef4444"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+          <!-- TP2 -->
+          <circle cx="600" cy="200" r="4" fill="#f59e0b" class="glow-yellow" />
+          <path
+            d="M 600 200 L 600 120 L 600 100"
+            fill="none"
+            stroke="#f59e0b"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+          <!-- TP3 -->
+          <circle cx="1040" cy="200" r="4" fill="#10b981" class="glow-green" />
+          <path
+            d="M 1040 200 L 1040 120 L 950 120 L 950 100"
+            fill="none"
+            stroke="#10b981"
+            stroke-width="1.5"
+            stroke-dasharray="4 4"
+          />
+        </g>
+
+        <!-- =============================== -->
+        <!-- ELECTRON FLOW ANIMATION -->
+        <!-- =============================== -->
+        <g class="glow-electron circuit-group" id="electrons">
+          <circle r="3.5" fill="#fef08a">
+            <animateMotion dur="6s" repeatCount="indefinite" begin="0s">
+              <mpath href="#main-path" />
+            </animateMotion>
+          </circle>
+          <circle r="3.5" fill="#fef08a">
+            <animateMotion dur="6s" repeatCount="indefinite" begin="-4.8s">
+              <mpath href="#main-path" />
+            </animateMotion>
+          </circle>
+          <circle r="3.5" fill="#fef08a">
+            <animateMotion dur="6s" repeatCount="indefinite" begin="-3.6s">
+              <mpath href="#main-path" />
+            </animateMotion>
+          </circle>
+          <circle r="3.5" fill="#fef08a">
+            <animateMotion dur="6s" repeatCount="indefinite" begin="-2.4s">
+              <mpath href="#main-path" />
+            </animateMotion>
+          </circle>
+          <circle r="3.5" fill="#fef08a">
+            <animateMotion dur="6s" repeatCount="indefinite" begin="-1.2s">
+              <mpath href="#main-path" />
+            </animateMotion>
+          </circle>
+        </g>
+      </svg>
+
+      <!-- ========================================== -->
+      <!-- HTML INTERACTIVE OVERLAY PANEL -->
+      <!-- ========================================== -->
+
+      <!-- OVERLAY UI PANEL (Bottom Docked) -->
+      <div
+        class="lg:absolute lg:bottom-8 lg:left-8 lg:right-8 lg:h-64 mx-3 mb-4 lg:mx-0 lg:mb-0 border-2 border-zinc-800 bg-zinc-950/90 backdrop-blur-md rounded-xl p-4 lg:p-6 flex flex-col lg:flex-row gap-4 lg:gap-6 shadow-2xl z-50 text-sm font-sans"
+        id="overlay-panel"
+      >
+        <!-- Col 1: TWEAKS (Signal Gen) -->
+        <div
+          class="order-3 lg:order-1 w-full lg:w-64 flex flex-col gap-3 lg:border-r border-zinc-800/50 pr-4 shrink-0 justify-center pt-3 lg:pt-0 border-t lg:border-t-0 border-zinc-800/50"
+        >
+          <h2
+            class="font-mono text-zinc-300 font-bold mb-1 tracking-widest text-[10px] lg:text-xs flex items-center border-b border-zinc-800 pb-2"
+          >
+            <span
+              class="inline-block w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"
+            ></span>
+            SIG_GEN & TWEAKS
+          </h2>
+          <div class="flex flex-col gap-2">
+            <div>
+              <div
+                class="flex justify-between text-[9px] lg:text-[10px] font-mono text-zinc-400 mb-1"
+              >
+                <span>Carrier (fc)</span
+                ><span id="val-fc" class="text-blue-300">40 Hz</span>
               </div>
-              <div class="item">
-                <h4>Hi, I'm <span>a programmer.</span></h4>
-              </div>
-              <div class="item">
-                <h4>Hi, I'm <span>a student.</span></h4>
-              </div>
-              <div class="item">
-                <h4>Hi, I'm <span>a problem solver.</span></h4>
-              </div>
+              <input
+                type="range"
+                id="slider-fc"
+                min="10"
+                max="100"
+                step="1"
+                value="69"
+                class="styled-slider text-blue-500"
+              />
             </div>
-            <div id="rotating-paragraphs">
-              <p>
-                Currently studying Engineering Physics at
-                <span>Delhi Technological University</span>. I love solving
-                problems and connecting with new people! Leave me a mail at
-                <a href="mailto:hey@akshat.sh">hey@akshat.sh</a>, or message me
-                on whatsapp at
-                <a
-                  href="https://api.whatsapp.com/send?phone=919315432437&text=Hello!"
-                  >+91 93154 32437</a
-                >.
-              </p>
+            <div>
+              <div
+                class="flex justify-between text-[9px] lg:text-[10px] font-mono text-zinc-400 mb-1"
+              >
+                <span>Message (fm)</span
+                ><span id="val-fm" class="text-green-300">3.0 Hz</span>
+              </div>
+              <input
+                type="range"
+                id="slider-fm"
+                min="0.5"
+                max="15"
+                step="0.5"
+                value="4"
+                class="styled-slider text-green-500"
+              />
             </div>
-            <div id="social-bar">
-              <a class="fas fa-envelope" href="mailto:hey@akshat.sh"></a>
-              <a
-                class="fab fa-linkedin-in"
-                href="https://linkedin.com/in/akshatj27"
-              ></a>
-              <a
-                class="fab fa-whatsapp"
-                href="https://api.whatsapp.com/send?phone=919315432437&text=Hello!"
-              ></a>
-              <a class="fab fa-github" href="https://github.com/akshatj27"></a>
-              <a
-                class="fab fa-instagram"
-                href="https://instagram.com/akshat.1337"
-              ></a>
+            <div>
+              <div
+                class="flex justify-between text-[9px] lg:text-[10px] font-mono text-zinc-400 mb-1"
+              >
+                <span>Mod Index (m)</span
+                ><span id="val-m" class="text-yellow-300">0.80</span>
+              </div>
+              <input
+                type="range"
+                id="slider-m"
+                min="0.1"
+                max="1.5"
+                step="0.05"
+                value="0.85"
+                class="styled-slider text-yellow-500"
+              />
+            </div>
+            <div>
+              <div
+                class="flex justify-between text-[9px] lg:text-[10px] font-mono text-zinc-400 mb-1"
+              >
+                <span>Env RC Const (τ)</span
+                ><span id="val-rc" class="text-purple-300">0.010</span>
+              </div>
+              <input
+                type="range"
+                id="slider-rc"
+                min="0.001"
+                max="0.05"
+                step="0.001"
+                value="0.045"
+                class="styled-slider text-purple-500"
+              />
             </div>
           </div>
+        </div>
+
+        <!-- Col 2: STAGES LIST -->
+        <!-- Adding custom scrollbar styling class specific to this block -->
+        <style>
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #3f3f46;
+            border-radius: 4px;
+          }
+          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #52525b;
+          }
+        </style>
+        <div
+          class="order-2 lg:order-2 w-full lg:w-64 flex flex-col gap-[2px] lg:border-r border-zinc-800/50 pr-4 shrink-0 overflow-y-auto custom-scrollbar relative pt-3 lg:pt-0 border-t lg:border-t-0 border-zinc-800/50"
+        >
+          <div
+            class="absolute right-1 top-[50%] transform -translate-y-1/2 flex flex-col items-center justify-center opacity-50 pointer-events-none lg:hidden animate-pulse"
+          >
+            <span
+              class="text-[8px] tracking-widest font-mono mb-1 rotated-text"
+              style="writing-mode: vertical-rl"
+              >SCROLL</span
+            >
+            <svg
+              class="w-3 h-3 text-zinc-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 14l-7 7m0 0l-7-7m7 7V3"
+              ></path>
+            </svg>
+          </div>
+          <h2
+            class="font-mono text-zinc-300 font-bold mb-1 tracking-widest text-[10px] lg:text-xs flex items-center border-b border-zinc-800 pb-2 shrink-0"
+          >
+            CIRCUIT PATH
+          </h2>
+          <div class="grid grid-cols-2 gap-x-2 gap-y-1 circuit-path-grid">
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-red-500/0 hover:border-red-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="scopes"
+              data-desc="desc-tp1"
+            >
+              <span class="text-red-400 pr-1">[TP1]</span> V_IN
+            </button>
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-blue-500/0 hover:border-blue-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="group-A1"
+              data-desc="desc-a1"
+            >
+              <span class="text-blue-400 pr-1">[STG_A]</span> Rectifier
+            </button>
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-blue-500/0 hover:border-blue-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="group-K"
+              data-desc="desc-k"
+            >
+              <span class="text-blue-400 pr-1">[STG_K]</span> Pre-Filter
+            </button>
+            <button
+              class="hover-target hover-target-purple text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-purple-500/0 hover:border-purple-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="group-S"
+              data-color="purple"
+              data-desc="desc-s"
+            >
+              <span class="text-purple-400 pr-1">[STG_S]</span> Delay Line
+            </button>
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-yellow-500/0 hover:border-yellow-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="scopes"
+              data-desc="desc-tp2"
+            >
+              <span class="text-yellow-400 pr-1">[TP2]</span> V_MID
+            </button>
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-blue-500/0 hover:border-blue-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="group-H"
+              data-desc="desc-h"
+            >
+              <span class="text-blue-400 pr-1">[STG_H]</span> Attenuator
+            </button>
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-blue-500/0 hover:border-blue-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="group-A2"
+              data-desc="desc-a2"
+            >
+              <span class="text-blue-400 pr-1">[STG_A]</span> Env Det.
+            </button>
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-blue-500/0 hover:border-blue-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="group-T"
+              data-desc="desc-t"
+            >
+              <span class="text-blue-400 pr-1">[STG_T]</span> T-Filter
+            </button>
+            <button
+              class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-green-500/0 hover:border-green-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
+              data-target="scopes"
+              data-desc="desc-tp3"
+            >
+              <span class="text-green-400 pr-1">[TP3]</span> V_OUT
+            </button>
+          </div>
+        </div>
+
+        <!-- Col 3: DETAILS PANE (Dynamic Content) -->
+        <div
+          class="order-1 lg:order-3 flex-grow relative overflow-y-auto lg:overflow-hidden min-h-[180px] lg:min-h-0 pl-1"
+        >
+          <h2
+            class="font-mono text-zinc-500 font-bold mb-3 tracking-widest text-[10px] lg:text-xs border-b border-zinc-800 pb-2"
+          >
+            COMPONENT EXPLANATION
+          </h2>
+          <div class="text-zinc-300 relative h-full">
+            <!-- Default Placeholder -->
+            <div
+              id="desc-default"
+              class="stage-desc absolute inset-0 opacity-100 transition-opacity duration-300 pointer-events-auto"
+            >
+              <p class="text-zinc-400/80 italic text-xs mb-4 animate-pulse">
+                This is a fully interactive schematic of an Analog AM
+                Demodulator. Hover over any stage on the left to view its
+                technical details and highlight it on the schematic above.
+              </p>
+              <h1
+                class="text-xl lg:text-2xl font-extrabold tracking-wider text-blue-100 flex flex-col gap-1"
+              >
+                AKSHAT JAIN
+                <span
+                  class="text-zinc-500 font-medium text-xs lg:text-sm font-mono"
+                  >// Engineering Physics Student</span
+                >
+              </h1>
+              <p
+                class="text-zinc-500 text-[10px] lg:text-xs mt-2 max-w-sm leading-relaxed"
+              >
+                I'm Akshat Jain, studying Engineering Physics at DTU. I'm highly
+                interested in electronics. Feel free to leave me a message or
+                connect via the links on the right.
+              </p>
+            </div>
+
+            <div
+              id="desc-tp1"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-red-400 mb-2 text-sm">
+                [TP1] V_IN: Modulated Carrier
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs"
+              >
+                <li>
+                  Carrier:
+                  <span class="text-zinc-100 font-semibold">10kHz</span> |
+                  Modulator:
+                  <span class="text-zinc-100 font-semibold">1kHz</span>
+                </li>
+                <li>
+                  High-frequency RF signal acts as the base transmission layer.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-a1"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-blue-400 mb-2 text-sm">
+                [STAGE A] Rectifier Front-End
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>
+                  Schottky Diode (<span class="text-zinc-200">D1</span>)
+                  performs half-wave
+                  <span class="text-zinc-100 font-semibold">rectification</span
+                  >.
+                </li>
+                <li>
+                  <span class="text-zinc-200">R1</span> acts as a soft-clipping
+                  bleed path, preventing abrupt diode cutoff at low amplitudes.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-k"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-blue-400 mb-2 text-sm">
+                [STAGE K] Pre-Filter & Splitter
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>
+                  Passive
+                  <span class="text-zinc-100 font-semibold"
+                    >LC low-pass filter</span
+                  >
+                  (<span class="text-zinc-200">L1, C1</span>).
+                </li>
+                <li>
+                  Damped by <span class="text-zinc-200">R2</span> to suppress
+                  high-frequency RF transients before the delay line. Forms
+                  exact "K" topology.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-s"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-purple-400 mb-2 text-sm">
+                [STAGE S] Microstrip Delay Line
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>
+                  Serpentine trace modeled as a
+                  <span class="text-zinc-100 font-semibold"
+                    >lumped delay line (Z0=50Ω)</span
+                  >.
+                </li>
+                <li>
+                  Introduces a fixed propagation delay (Δt) for phase alignment
+                  prior to attenuation.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-tp2"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-yellow-400 mb-2 text-sm">
+                [TP2] V_MID: Envelope Isolation
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>
+                  Signal viewed mid-circuit, before final smoothing and full
+                  envelope recovery.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-h"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-blue-400 mb-2 text-sm">
+                [STAGE H] Pi/H-Pad Attenuator
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>
+                  Symmetrical resistive
+                  <span class="text-zinc-100 font-semibold">Pi-network</span>
+                  (<span class="text-zinc-200">R3-R7</span>).
+                </li>
+                <li>
+                  Precisely attenuates signal amplitude while maintaining strict
+                  <span class="text-zinc-100 font-semibold">50Ω matching</span>
+                  to prevent reflections.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-a2"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-blue-400 mb-2 text-sm">
+                [STAGE A] Primary Envelope Detector
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>The core AM demodulator tracking circuit.</li>
+                <li>
+                  <span class="text-zinc-200">D2</span> acts as a peak series
+                  detector.
+                </li>
+                <li>
+                  <span class="text-zinc-200">C2</span> &
+                  <span class="text-zinc-200">R8</span> form a parallel shunt to
+                  ground, setting the
+                  <span class="text-zinc-100 font-semibold"
+                    >RC time constant (τ)</span
+                  >
+                  to track smoothly.
+                </li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-t"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-blue-400 mb-2 text-sm">
+                [STAGE T] Final T-Section Filter
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>
+                  Passive low-pass T-filter (<span class="text-zinc-200"
+                    >L2, L3, C3</span
+                  >).
+                </li>
+                <li>Heavily attenuates residual 10kHz carrier ripple.</li>
+              </ul>
+            </div>
+
+            <div
+              id="desc-tp3"
+              class="stage-desc absolute inset-0 opacity-0 pointer-events-none transition-opacity duration-300"
+            >
+              <h2 class="font-mono font-bold text-green-400 mb-2 text-sm">
+                [TP3] V_OUT: Recovered Analog CV
+              </h2>
+              <ul
+                class="text-zinc-400 space-y-1.5 list-disc list-inside text-xs pr-4"
+              >
+                <li>
+                  The purely extracted
+                  <span class="text-zinc-100 font-semibold"
+                    >1kHz analog signal</span
+                  >, ready for physical synth processing.
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Col 4: EXTERNAL LINKS -->
+        <div
+          class="order-4 lg:order-4 w-full lg:w-32 grid grid-cols-2 lg:flex lg:flex-col lg:border-l border-zinc-800/50 pl-0 lg:pl-4 shrink-0 gap-2 lg:gap-3 pt-3 lg:pt-0 border-t lg:border-t-0 border-zinc-800/50"
+        >
+          <a
+            href="https://linkedin.com/in/akshatj27"
+            target="_blank"
+            class="term-btn block w-full bg-zinc-950 border border-zinc-700 hover:border-blue-500 text-blue-400 font-mono text-center py-2 rounded uppercase text-[9px] lg:text-[10px] tracking-widest font-bold"
+          >
+            > LinkedIn
+          </a>
+          <a
+            href="https://instagram.com/akshat.1337"
+            target="_blank"
+            class="term-btn block w-full bg-zinc-950 border border-zinc-700 hover:border-pink-400 text-pink-400 font-mono text-center py-2 rounded uppercase text-[9px] lg:text-[10px] tracking-widest font-bold"
+          >
+            > Instagram
+          </a>
+          <a
+            href="https://github.com/akshatj27"
+            target="_blank"
+            class="term-btn block w-full bg-zinc-950 border border-zinc-700 hover:border-zinc-300 text-zinc-300 font-mono text-center py-2 rounded uppercase text-[9px] lg:text-[10px] tracking-widest font-bold"
+          >
+            > GitHub
+          </a>
+          <a
+            href="mailto:hey@akshat.sh"
+            class="term-btn block w-full bg-zinc-950 border border-zinc-700 hover:border-yellow-400 text-yellow-400 font-mono text-center py-2 rounded uppercase text-[9px] lg:text-[10px] tracking-widest font-bold"
+          >
+            > Email
+          </a>
+          <!--
+          <a
+            href="#"
+            class="term-btn block w-full bg-zinc-950 border border-zinc-700 hover:border-green-400 text-green-400 font-mono text-center py-2 rounded uppercase text-[9px] lg:text-[10px] tracking-widest font-bold mt-auto lg:mt-0"
+          >
+            > Resume
+          </a>
+          -->
         </div>
       </div>
     </div>
 
-    <footer>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js"></script>
-      <script>
-        (function () {
-          var sliders = document.querySelectorAll(".slider");
-          sliders.forEach((slider) => {
-            tns({
-              container: slider,
-              mode: "gallery",
-              controls: false,
-              nav: false,
-              autoplay: true,
-              autoplayButtonOutput: false,
-              mouseDrag: true,
-            });
+    <!-- Interactive Script -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const triggers = document.querySelectorAll(".hover-target");
+        const circuitGroups = document.querySelectorAll(".circuit-group");
+
+        let activeClickTarget = null;
+
+        function activateTarget(target) {
+          const targetId = target.getAttribute("data-target");
+          const isPurple = target.getAttribute("data-color") === "purple";
+          const descId = target.getAttribute("data-desc");
+
+          circuitGroups.forEach((group) => {
+            group.classList.remove("highlighted-blue", "highlighted-purple");
+            group.classList.add("dimmed");
           });
-        })();
-      </script>
-    </footer>
+
+          const activeGroup = document.getElementById(targetId);
+          if (activeGroup) {
+            activeGroup.classList.remove("dimmed");
+            if (isPurple) {
+              activeGroup.classList.add("highlighted-purple");
+            } else {
+              activeGroup.classList.add("highlighted-blue");
+            }
+          }
+
+          const scopesGroup = document.getElementById("scopes");
+          if (targetId === "scopes" && scopesGroup) {
+            scopesGroup.classList.remove("dimmed");
+          }
+
+          if (descId) {
+            document.querySelectorAll(".stage-desc").forEach((el) => {
+              el.classList.remove("opacity-100", "pointer-events-auto");
+              el.classList.add("opacity-0", "pointer-events-none");
+            });
+            const descEl = document.getElementById(descId);
+            if (descEl) {
+              descEl.classList.remove("opacity-0", "pointer-events-none");
+              descEl.classList.add("opacity-100", "pointer-events-auto");
+            }
+          }
+        }
+
+        function resetAll() {
+          circuitGroups.forEach((group) => {
+            group.classList.remove(
+              "dimmed",
+              "highlighted-blue",
+              "highlighted-purple",
+            );
+          });
+          document.querySelectorAll(".stage-desc").forEach((el) => {
+            el.classList.remove("opacity-100", "pointer-events-auto");
+            el.classList.add("opacity-0", "pointer-events-none");
+          });
+          document
+            .getElementById("desc-default")
+            .classList.remove("opacity-0", "pointer-events-none");
+          document
+            .getElementById("desc-default")
+            .classList.add("opacity-100", "pointer-events-auto");
+        }
+
+        triggers.forEach((target) => {
+          target.addEventListener("mouseenter", () => {
+            activateTarget(target);
+          });
+
+          target.addEventListener("mouseleave", () => {
+            if (!activeClickTarget) {
+              resetAll();
+            }
+          });
+
+          target.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (activeClickTarget === target) {
+              resetAll();
+              activeClickTarget = null;
+            } else {
+              activateTarget(target);
+              activeClickTarget = target;
+            }
+          });
+        });
+
+        // Tap outside any stage to deselect (mobile support)
+        document.addEventListener("click", (e) => {
+          if (activeClickTarget && !e.target.closest(".hover-target")) {
+            resetAll();
+            activeClickTarget = null;
+          }
+        });
+
+        // Signal Generator Logic
+        const sliders = ["fc", "fm", "m", "rc"];
+        sliders.forEach((id) => {
+          document
+            .getElementById("slider-" + id)
+            .addEventListener("input", updateScopes);
+        });
+
+        function updateScopes() {
+          const fc = parseFloat(document.getElementById("slider-fc").value);
+          const fm = parseFloat(document.getElementById("slider-fm").value);
+          const m = parseFloat(document.getElementById("slider-m").value);
+          const rc = parseFloat(document.getElementById("slider-rc").value);
+
+          // Update labels
+          document.getElementById("val-fc").innerText = fc + " Hz";
+          document.getElementById("val-fm").innerText = fm.toFixed(1) + " Hz";
+          document.getElementById("val-m").innerText = m.toFixed(2);
+          document.getElementById("val-rc").innerText = rc.toFixed(3);
+
+          const numPoints = 300; // Resolution for drawing path segments
+          const dt = 1.0 / numPoints; // Normalized time step
+          let path1 = "M 0 40 ";
+          let path2 = "M 0 40 ";
+          let path3 = "M 0 40 ";
+
+          let v_out_prev = 0;
+          let v_out_filtered = 0;
+          const amplitudeScale = 14;
+
+          for (let i = 0; i <= numPoints; i++) {
+            let t = i / numPoints;
+            let x = i * (200 / numPoints); // Map normalized time to SVG width
+
+            // Equation for AM: (1 + m*sin(Wm*t)) * sin(Wc*t)
+            let env = 1 + m * Math.sin(2 * Math.PI * fm * t);
+            let carrier = Math.sin(2 * Math.PI * fc * t);
+            let v_in = env * carrier;
+
+            let y1 = 40 - amplitudeScale * v_in;
+            path1 += `L ${x.toFixed(2)} ${y1.toFixed(2)} `;
+
+            // Ideal Diode Rectification
+            let v_mid = Math.max(0, v_in);
+            let y2 = 40 - amplitudeScale * v_mid;
+            path2 += `L ${x.toFixed(2)} ${y2.toFixed(2)} `;
+
+            // RC Envelope Detector Math (charging & discharging)
+            let v_out = v_mid;
+            let dischargeVoltage = v_out_prev * Math.exp(-dt / rc);
+
+            // If capacitor voltage is higher than source voltage, diode is off -> capacitor discharges
+            if (dischargeVoltage > v_mid) {
+              v_out = dischargeVoltage;
+            }
+
+            // Simulate Stage T low-pass filter to aggressively attenuate carrier ripple (noise)
+            v_out_filtered += (v_out - v_out_filtered) * 0.15;
+
+            let y3 = 40 - amplitudeScale * v_out_filtered;
+            path3 += `L ${x.toFixed(2)} ${y3.toFixed(2)} `;
+
+            v_out_prev = v_out;
+          }
+
+          document.getElementById("path-vin").setAttribute("d", path1);
+          document.getElementById("path-vmid").setAttribute("d", path2);
+          document.getElementById("path-vout").setAttribute("d", path3);
+        }
+
+        // Initial Scope Draw
+        updateScopes();
+
+        // Crop SVG viewBox on mobile to remove empty space below circuit
+        function updateSVGViewBox() {
+          const svg = document.getElementById("circuit-svg");
+          if (window.innerWidth < 1024) {
+            svg.setAttribute("viewBox", "0 0 1200 420");
+          } else {
+            svg.setAttribute("viewBox", "0 0 1200 900");
+          }
+        }
+        updateSVGViewBox();
+        window.addEventListener("resize", updateSVGViewBox);
+      });
+    </script>
   </body>
 </html>
