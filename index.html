@@ -326,12 +326,13 @@
         <!-- =============================== -->
         <!-- OSCILLOSCOPE SCREENS -->
         <!-- =============================== -->
-        <g id="scopes" class="circuit-group">
+        <g id="scopes">
           <!-- Scope 1: V_IN (AM Signal) -->
           <g
+            id="scope1"
             transform="translate(150, 20)"
-            class="hover-target"
-            data-target="scopes"
+            class="circuit-group hover-target"
+            data-target="scope1"
             data-desc="desc-tp1"
           >
             <rect
@@ -408,9 +409,10 @@
 
           <!-- Scope 2: V_MID (Rectified Signal) -->
           <g
+            id="scope2"
             transform="translate(500, 20)"
-            class="hover-target"
-            data-target="scopes"
+            class="circuit-group hover-target"
+            data-target="scope2"
             data-desc="desc-tp2"
           >
             <rect
@@ -487,9 +489,10 @@
 
           <!-- Scope 3: V_OUT (Recovered Envelope) -->
           <g
+            id="scope3"
             transform="translate(850, 20)"
-            class="hover-target"
-            data-target="scopes"
+            class="circuit-group hover-target"
+            data-target="scope3"
             data-desc="desc-tp3"
           >
             <rect
@@ -990,7 +993,7 @@
           <div class="grid grid-cols-2 gap-x-2 gap-y-1 circuit-path-grid">
             <button
               class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-red-500/0 hover:border-red-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
-              data-target="scopes"
+              data-target="scope1"
               data-desc="desc-tp1"
             >
               <span class="text-red-400 pr-1">[TP1]</span> V_IN
@@ -1019,7 +1022,7 @@
             </button>
             <button
               class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-yellow-500/0 hover:border-yellow-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
-              data-target="scopes"
+              data-target="scope2"
               data-desc="desc-tp2"
             >
               <span class="text-yellow-400 pr-1">[TP2]</span> V_MID
@@ -1047,7 +1050,7 @@
             </button>
             <button
               class="hover-target text-left px-2 py-1 rounded text-[9px] lg:text-[10px] font-mono border-l-2 border-transparent hover:bg-zinc-900 focus:bg-zinc-900 border-green-500/0 hover:border-green-500 transition-all text-zinc-400 hover:text-zinc-200 block w-full"
-              data-target="scopes"
+              data-target="scope3"
               data-desc="desc-tp3"
             >
               <span class="text-green-400 pr-1">[TP3]</span> V_OUT
@@ -1365,7 +1368,12 @@
           }
 
           const scopesGroup = document.getElementById("scopes");
-          if (targetId === "scopes" && scopesGroup) {
+          if (
+            (targetId === "scope1" ||
+              targetId === "scope2" ||
+              targetId === "scope3") &&
+            scopesGroup
+          ) {
             scopesGroup.classList.remove("dimmed");
           }
 
